@@ -7,6 +7,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var passport = require('passport');
 var session = require('express-session');
+var ip = require('./config/env.js');
 
 require('./config/passport')(passport);
 // var authRoutes = require('./db/authRoutes');
@@ -184,7 +185,7 @@ var repopPlayers = function(data, player) {
   }
 
   // //add to players array
-  players.push(nPlayer); 
+  players.push(nPlayer);
   console.log('serverside players', players);
 };
 
@@ -199,7 +200,7 @@ var newPlayer = function(data, player) {
     console.log('player already stored in server!');
     return;
   }
-  
+
   nPlayer.id = player.id;
 
 
@@ -226,7 +227,7 @@ var newPlayer = function(data, player) {
 
   //add to players array
 
-  players.push(nPlayer); 
+  players.push(nPlayer);
   console.log('serverside players', players);
 };
 
@@ -241,7 +242,7 @@ var movePlayer = function (data, player) {
   movedPlayer.setX(data.x);
   movedPlayer.setY(data.y);
   movedPlayer.setAngle(data.angle);
-  
+
 
   player.broadcast.emit('moveplayer', {
     id: movedPlayer.id,
@@ -275,7 +276,7 @@ var moveP2Player = function (data, player) {
 
 //helper function to find player in our stored players array
 var findPlayer = function (id) {
-  for (var i = 0; i < players.length; i++) { 
+  for (var i = 0; i < players.length; i++) {
     if (players[i].id === id) {
       return players[i];
     }
@@ -283,8 +284,4 @@ var findPlayer = function (id) {
   return false;
 };
 
-//http.listen(process.env.PORT || 3000, '107.170.245.62');
-http.listen(3000, "127.0.0.1");
-
-
-
+http.listen(process.env.PORT || 3000, ip);
